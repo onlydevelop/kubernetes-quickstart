@@ -1,0 +1,5 @@
+name: Sample App
+version: 0.1.0
+description: Helm Demo
+maintainers:
+    - name: Dipanjan Bhowmik

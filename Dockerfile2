@@ -1,0 +1,15 @@
+FROM java:8 AS BUILD_IMAGE
+ENV APP_HOME=/root/demo/
+RUN mkdir -p $APP_HOME/src/main/java
+WORKDIR $APP_HOME
+COPY build.gradle gradlew gradlew.bat $APP_HOME
+COPY gradle $APP_HOME/gradle
+RUN ./gradlew init
+COPY . .
+RUN ./gradlew build
+
+FROM anapsix/alpine-java
+WORKDIR /root/
+COPY --from=BUILD_IMAGE /root/demo/build/libs/demo-0.1.0.jar .
+EXPOSE 8080
+CMD java -jar demo-0.1.0.jar
